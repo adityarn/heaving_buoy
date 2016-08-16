@@ -1,0 +1,129 @@
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 20
+n_body = 8
+n_bottom = 4
+n_fs = 4
+n_ff = 4
+fjk = (-53.9228613307-0.0068828246122j)
+mu = 136.588203
+damping = 0.010954
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 500
+n_body = 200
+n_bottom = 100
+n_fs = 100
+n_ff = 100
+fjk = (-100.882233724+0.0123477417402j)
+mu = 255.537683
+damping = -0.019652
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 1125
+n_body = 450
+n_bottom = 225
+n_fs = 225
+n_ff = 225
+fjk = (-102.384420446-0.0774038418498j)
+mu = 259.342767
+damping = 0.123192
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 1475
+n_body = 800
+n_bottom = 225
+n_fs = 225
+n_ff = 225
+fjk = (-103.393596492-0.0763739203429j)
+mu = 261.899039
+damping = 0.121553
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 3125
+n_body = 1250
+n_bottom = 625
+n_fs = 625
+n_ff = 625
+fjk = (-103.224113229+0.198490877375j)
+mu = 261.469733
+damping = -0.315908
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 3675
+n_body = 1800
+n_bottom = 625
+n_fs = 625
+n_ff = 625
+fjk = (-103.505726434+0.19724617966j)
+mu = 262.183068
+damping = -0.313927
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 4152
+n_body = 1800
+n_bottom = 784
+n_fs = 784
+n_ff = 784
+fjk = (-103.85283907+0.0119848816382j)
+mu = 263.062314
+damping = -0.019075
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 10043
+n_body = 5000
+n_bottom = 1681
+n_fs = 1681
+n_ff = 1681
+fjk = (-104.217484597-0.000177736342335j)
+mu = 263.985972
+damping = 0.000283
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 0.628318
+n_total = 14075
+n_body = 5000
+n_bottom = 3025
+n_fs = 3025
+n_ff = 3025
+fjk = (-103.970109684-0.000347587979718j)
+mu = 263.359364
+damping = 0.000553
+
+***********************************************************
+
+Green's Therem solved for Heaving Buoy
+sigma = 5.026548
+n_total = 9800
+n_body = 5000
+n_bottom = 1600
+n_fs = 1600
+n_ff = 1600
+fjk = (-6511.36447025+0.0438862460483j)
+mu = 257.710608
+damping = -0.008731

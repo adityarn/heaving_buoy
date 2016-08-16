@@ -1,0 +1,9 @@
+#!/bin/bash
+#@ output     = test.out
+#@ error      = test.err
+#@ job_type   = serial
+#@ class      = Long
+#@ environment = COPY_ALL
+#@ queue
+
+python heaving_buoy.py

@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<complex>
+using namespace std;
+
+int main()
+{
+  vector < vector < complex<double> > > array;
+  int n = 10;
+  array.resize(n);
+  for(int i=0; i<n; i++)
+    array[i].resize(n);
+  for(int j=0; j<n; j++)
+    for(int k=0; k<n; k++)
+      array[j][k] = complex<double> (j,k);
+  for(int j=0; j<n; j++)
+    {
+    for(int k=0; k<n; k++)
+      cout<<array[j][k]<<" ";
+    cout<<"\n";
+    }
+  
+  array[3][3] = 9.0;
+  cout<<"\n"<<array[3][3] + complex<double>(2,0) + complex<double>(0,3)<<"\n";
+}

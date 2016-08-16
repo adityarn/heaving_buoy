@@ -1,0 +1,10 @@
+\begin{table}[htbp]
+\caption{}
+\begin{tabular}{|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|c|}{No of panels} & \multicolumn{1}{c|}{No of body panels} & \multicolumn{1}{c|}{sigma} & \multicolumn{1}{c|}{mu} & \multicolumn{1}{c|}{damping} \\ \hline
+6191 & 1250 & 0.628 & 305.19 & 0.0665959 \\ \hline
+6191 & 1250 & 5 & 247.588 & 0.419 \\ \hline
+\end{tabular}
+\label{}
+\end{table}

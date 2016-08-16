@@ -1,0 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import linecache
+
+c = 1
+
+lineu = linecache.getline("U.txt",c)

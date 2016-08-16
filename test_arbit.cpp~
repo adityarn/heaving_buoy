@@ -1,0 +1,30 @@
+#include<vector>
+#include<iostream>
+#include<cmath>
+#include<complex>
+using namespace std;
+
+int main()
+{
+  vector< vector<complex<double> > > a;
+  complex<double> numer,denom;
+  double pi,t1 = 1.5;
+  a.resize(3);
+  pi = 4*atan(1.0);
+
+  for(int i=0; i<3; i++)
+    {
+      a[i].resize(3);
+      for(int j=0; j<3; j++)
+	a[i][j] = complex<double>(2*pi,0);
+    }
+
+  for(int i=0; i<3; i++)
+    {
+      for(int j=0; j<3; j++)
+	cout<<a[i][j]<<"\t";
+      cout<<"\n";
+    }
+  return 0;
+
+}

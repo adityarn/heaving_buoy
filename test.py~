@@ -1,0 +1,9 @@
+import numpy as np
+
+R = 1360.
+ndr = 40.
+dr = R/ndr
+
+crcum = 0.
+for i in range(ndr):
+    circum += 2*np.pi * (dr+i*dr)

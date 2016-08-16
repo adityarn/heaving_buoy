@@ -1,0 +1,286 @@
+// Program to solve Green's Thm for velocity potential on a prolate spheroid of length 10m
+// dia 2m
+// Determine velocity potential and added mass coefficient
+
+#include<iostream>
+#include<fstream>
+#include<cmath>
+#include<iomanip>
+#include<time.h>
+#include<comlex>
+#include"Gauss_Elimin.h"
+
+using namespace std;
+
+class Panel
+{
+protected:
+  double coord[3],norm[3],area;
+
+public:
+
+  int set_area(double x, double y)
+  {
+    area = x*y;
+    return 1;
+  }
+
+  
+  double rij(coordj[3])
+  {
+    return sqrt(pow(coord[0]-coordj[0],2)+pow(coord[1]-coordj[1],2)+pow(coord[2]-coordj[2],2));
+  }
+};
+
+class Green : private Gauss_Elimin
+{
+protected:
+  vector < vector < complex<double> > > a, phi, b;
+  double pi, rad, draft;
+  int n_body, n_fs, n_bottom, n_ff, n_total;
+  Panel *xyz; 
+
+public:
+
+  Green(float Draft, float dia, int Ns, int Nf, int Nb, int Nff)      // Constructor to initialise values
+  {
+    // n_body is the number of panels on the surface of the body
+    n_body = Ns;
+
+    // n_fs is the number of panels on the free surface
+    n_fs = Nf;
+
+    // n_bottom is the number of panels on the bottom of the domain (flat sea bed)
+    n_bottom = Nb;
+
+    // n_on_ff is the number of far field panels
+    n_ff = Nff;
+
+    n_total = Ns + Nf + Nb + Nff;
+
+    // a is a 2 dimensional coefficient matrix a[N][N] x phi[N] = b[N]
+    a.resize(n_total);
+
+    // phi is the unknown values of phi that we wish to obtain
+    phi.resize(n_total);
+
+    b.resize(n_total);
+
+    // panel_coord holds x,y,z coordinates of control points of each panel
+    xyz = new Panel[n_total];
+
+    norm = new double *[n_total];
+
+    area = new double[n_total];
+
+
+    for(int i=0; i<n_total; i++)
+      {
+	a[i] = new complex<double> [n_total];
+	panel_coord[i] = new double [3];
+	norm[i] = new double [3];
+      }
+
+    draft = Draft;
+    pi = 4*atan(1);
+
+    rad = dia*0.5;
+
+    // Initialising all phi[] values to Zero
+
+  }
+
+
+        // Function which sets the control points
+	// coordinate to x[], y[], z[]
+	void coord_set_body()
+	{
+	  double dy,dangle,denom;
+
+	  int nangle, nsides, nbottom,c;
+	  c = 0;
+	  nsides = int(pow(n_body*.5,0.5));
+	  nangle = nsides;
+
+	  dangle = 2*pi/nangle;
+
+	  dy = draft/nsides;
+		
+	  for(int i=0; i<nsides; i++)
+	    {
+	      for(int j=0; j<nangle; j++)
+		{
+		  panel_coord[c][0] = rad * cos(0.5*dangle+j*dangle);
+		  panel_coord[c][1] = rad * sin(0.5*dangle+j*dangle);
+		  panel_coord[c][2] = 0.5*dy + c * dy;
+
+		  area[c] = rad * dangle * dy;
+		  denom = sqrt(pow(2*panel_coord[c][0],2)+pow(2*panel_coord[c][1],2));
+		  norm[c][0] = 2 * panel_coord[c][0]/denom;
+		  norm[c][1] = 2 * panel_coord[c][1]/denom;
+		  norm[c][2] = 0.0;
+
+		  c++;
+		}
+	    }
+	  int rem_panels,drad;
+	  rem_panels = n_body - nsides*nangle;
+
+	  drad = int(pow(rem_panels,0.5));
+	  nangle = drad;
+	  
+	  for(int i=c; i<c+nangle*drad; i++)
+
+	    cout<<"coord_set_body() ended\n";
+
+	}
+
+
+	// Function which computes a[] and b[]
+	// for each mode and calls gauss_Elimin()
+	// which in turn calls back_sub() to compute phi
+	// for each mode (from 1 to 6)
+	int a_b_compute()
+	{
+		int i,j,k,f;
+		double denom,numer;
+
+		cout<<"Starting a_b_compute()\n";
+
+        f=0;
+
+		coord_set();
+
+		for(i=0;i<6;i++)
+		{
+            cout<<"abcompute for i= "<<i<<"\n";
+			for(j=0;j<m*n;j++)
+			{
+                b[j] = 0;
+
+                for(k=0; k< m*n;k++)
+                {
+                    if(j!= k)
+                    {
+
+                       // if(i == 0)
+                        //{
+                            denom = pow(pow(panel_coord[j][0]-panel_coord[k][0],2) + pow(panel_coord[j][1]-panel_coord[k][1],2) + pow(panel_coord[j][2]-panel_coord[k][2],2),1.5);
+
+                            numer = ( (panel_coord[j][0]-panel_coord[k][0])*norm[k][0] + (panel_coord[j][1]-panel_coord[k][1])*norm[k][1] + (panel_coord[j][2]-panel_coord[k][2])*norm[k][2] ) * area[k];
+
+                            a[j][k] = numer/denom;
+                        //}
+
+                        denom = sqrt(pow(panel_coord[j][0]- panel_coord[k][0],2) + pow(panel_coord[j][1] - panel_coord[k][1],2) + pow(panel_coord[j][2] - panel_coord[k][2],2));
+
+                        b[j] = b[j] + norm[k][i] * area[k] / denom;
+                    }
+
+                    if(j == k)
+                        a[j][k] = 2*pi;		// All diagonal terms of a matrix are 2 x pi
+
+                }
+			}
+
+
+            f = gauss_Elimin(a,phi[i],b,m*n,0);
+
+            if(f != 0)
+                return 1;
+
+
+        }
+
+		return 0;
+
+	}
+
+    void Display_ab()
+    {
+        cout<<"\n";
+        for(int i=0; i< m*n; i++)
+        {
+            for(int j=0; j<m*n; j++)
+                cout<<a[i][j]<<"    ";
+            cout<<b[i]<<endl;
+        }
+
+        cout<<"\n\n";
+
+    }
+
+	double added_mass_coeff(int mode1 , int mode2)
+	{
+        double mu=0.0;
+
+        for(int i=0; i < m*n; i++)
+            mu = mu + phi[mode1][i]*norm[i][mode2]*area[i];
+
+        return mu;
+	}
+
+	void write(float t1)
+	{
+        ofstream phimatrix, run_info;
+        clock_t t2;
+
+//        amatrix.open("amatrix");
+        //bmatrix.open("bmatrix");
+        phimatrix.open("phimatrix");
+        run_info.open("run_info");
+
+        for(int i=0;i<m*n;i++)
+		{
+			for(int j=0; j < 6; j++)
+                phimatrix<< setprecision(9)<< phi[j][i]<< "\t";
+
+            phimatrix<<"\n";
+		}
+
+		t2 = clock();
+
+		run_info<<"Green's boundary integration carried out for a prolate spheroid in inviscid fluid\n\n";
+
+		run_info<<"m x n =>"<<m<<" x "<<n<<" = "<<m*n<<"\n\n";
+
+		run_info<<"Length = "<<L<<"\n\n";
+
+		run_info<<"Mu matrix:-\n";
+
+		for(int mode1 = 0; mode1<6; mode1++)
+		{
+            for(int mode2 =0; mode2 < 6; mode2++)
+                run_info<<added_mass_coeff(mode1 , mode2)<<"\t";
+            run_info<<endl;
+        }
+
+		run_info<<"\nTotal execution time = "<< float(t2) - t1<<" us";
+	}
+
+
+};
+
+int main()
+{
+
+    clock_t t1;
+    t1 = clock();
+
+    int f=0;
+
+	Green A(10.0, 2.0, 50, 50);
+
+	f = A.a_b_compute();
+
+    if(f == 0)
+        A.write(float(t1));
+
+    else
+        return 1;
+
+    cout<<"completed!"<<endl;
+    cin>>f;
+
+    return 0;
+}
